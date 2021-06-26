@@ -4,3 +4,4 @@ creates 3 folders for sorting photos at 1 level up ( e.g C:/wedding/no,C:/weddin
 webpage with tab for each folder content and buttons that allow moving the image between the folders <br />
 
 
+![Capture](https://user-images.githubusercontent.com/40518583/123522115-f6a66980-d6c3-11eb-9da0-d692917e8b02.JPG)
