@@ -1,0 +1,44 @@
+<!DOCTYPE=html>
+<html>
+<style>
+    .image-with-b {
+    text-align: justify;
+    width: 600px;
+}
+
+.image-with-b img {
+    display: block;
+    margin: 0 auto;
+}
+
+</style>
+
+<script>
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+function move_to(type,file_path){
+    httpGet('../move?type='+type+'&path='+file_path)
+}
+</script>
+
+
+<head>
+    <title>
+        Rate My images
+    </title>
+</head>
+<body>
+    {% for hist in hists %}
+    <div class='image-with-b'>
+    <img src="{{url_for('static', filename=hist)}}" alt="{{hist}}" style="width:1,368px;height:912px;">
+    <button type="button" onclick="move_to('unsort','{{hist}}')">Unsort</button><button type="button" onclick="move_to('no','{{hist}}')">No</button> <button type="button" onclick="move_to('maybe','{{hist}}')">Maybe</button> <button type="button" onclick="move_to('yes','{{hist}}')">Yes!</button>
+    </div>
+    {% endfor %}
+</body>
+</html>`
