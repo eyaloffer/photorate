@@ -46,7 +46,7 @@ def index():
 @app.route('/unsorted')
 def unsorted():
     hists = os.listdir(photos_folder)
-    hists = ['photos/' + file for file in hists]
+    hists = [unsort_folder + '/' + file for file in hists]
     return render_template('images.html', hists=hists)
 
 @app.route('/no')
