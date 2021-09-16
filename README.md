@@ -5,3 +5,8 @@ webpage with tab for each folder content and buttons that allow moving the image
 
 
 ![Capture](https://user-images.githubusercontent.com/40518583/123522115-f6a66980-d6c3-11eb-9da0-d692917e8b02.JPG)
+
+
+
+creating exe:
+``` pyinstaller -F --add-data="templates;templates" main.py ```
