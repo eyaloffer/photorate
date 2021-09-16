@@ -5,6 +5,8 @@ import tkinter as tk
 from tkinter import filedialog
 import webbrowser
 from threading import Timer
+import logging
+
 
 
 root = tk.Tk()
@@ -16,7 +18,9 @@ if os.path.isfile(currdir+'/photo_path'):
     with open('photo_path', 'r') as file:
         photos_folder = file.read().replace('\n', '')
 else:
+    print("Please wait for folder selection dialog")
     photos_folder = filedialog.askdirectory(parent=root, initialdir=currdir, title='Please select a photo directory')
+    print("Please select a photo directory")
     if len(photos_folder) > 0:
         print(f"You chose {photos_folder}")
         with open(currdir+'/photo_path', 'w') as file:
@@ -77,6 +81,10 @@ def move():
     return 'file moved'
 
 if __name__ == "__main__":
+    print("Opening Browser")
+    print("Photo server available on http://localhost:5000/")
     Timer(1, open_browser).start()
+    logging.getLogger('werkzeug').disabled = True
+    os.environ['WERKZEUG_RUN_MAIN'] = 'true'
     app.run(host='0.0.0.0')
 
