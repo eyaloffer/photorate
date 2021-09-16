@@ -1,12 +1,29 @@
 from flask import Flask,render_template,request
 import os
 from pathlib import Path
-import json
+import tkinter as tk
+from tkinter import filedialog
+import webbrowser
+from threading import Timer
 
-f = open('config.json',)
-config = json.loads(f.read())
-f.close()
-photos_folder = config['photos_path']
+
+root = tk.Tk()
+root.withdraw()  # use to hide tkinter window
+
+currdir = os.getcwd()
+
+if os.path.isfile(currdir+'/photo_path'):
+    with open('photo_path', 'r') as file:
+        photos_folder = file.read().replace('\n', '')
+else:
+    photos_folder = filedialog.askdirectory(parent=root, initialdir=currdir, title='Please select a photo directory')
+    if len(photos_folder) > 0:
+        print(f"You chose {photos_folder}")
+        with open(currdir+'/photo_path', 'w') as file:
+            file.write(photos_folder)
+    else:
+        exit(1)
+
 base_folder = os.path.split(photos_folder)
 unsort_folder = base_folder[1]
 base_folder = base_folder[0]
@@ -15,7 +32,8 @@ for folder in ['no', 'maybe', 'yes']:
 app = Flask(__name__,static_folder=base_folder)
 
 
-
+def open_browser():
+    webbrowser.open_new('http://localhost:5000/')
 
 @app.route('/')
 def index():
@@ -59,4 +77,6 @@ def move():
     return 'file moved'
 
 if __name__ == "__main__":
+    Timer(1, open_browser).start()
     app.run(host='0.0.0.0')
+
