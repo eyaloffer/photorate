@@ -6,7 +6,7 @@ from tkinter import filedialog
 import webbrowser
 from threading import Timer
 import logging
-
+import imghdr
 
 
 root = tk.Tk()
@@ -36,6 +36,12 @@ for folder in ['no', 'maybe', 'yes']:
 app = Flask(__name__,static_folder=base_folder)
 
 
+def get_hists(folder,prefix):
+    hists = os.listdir(f'{folder}/{prefix}')
+    hists = [prefix + '/' + file for file in hists if imghdr.what(f'{folder}/{prefix}/{file}')]
+
+    return hists
+
 def open_browser():
     webbrowser.open_new('http://localhost:5000/')
 
@@ -45,26 +51,23 @@ def index():
 
 @app.route('/unsorted')
 def unsorted():
-    hists = os.listdir(photos_folder)
-    hists = [unsort_folder + '/' + file for file in hists]
+    hists = get_hists(base_folder, unsort_folder)
     return render_template('images.html', hists=hists)
 
 @app.route('/no')
 def no():
-    hists = os.listdir(base_folder+'/no')
+    hists = get_hists(base_folder,'/no')
     hists = ['no/' + file for file in hists]
     return render_template('images.html', hists=hists)
 
 @app.route('/maybe')
 def maybe():
-    hists = os.listdir(base_folder+'/maybe')
-    hists = ['maybe/' + file for file in hists]
+    hists = get_hists(base_folder, '/maybe')
     return render_template('images.html', hists=hists)
 
 @app.route('/yes')
 def yes():
-    hists = os.listdir(base_folder+'/yes')
-    hists = ['yes/' + file for file in hists]
+    hists = get_hists(base_folder, '/yes')
     return render_template('images.html', hists=hists)
 
 @app.route('/move')
